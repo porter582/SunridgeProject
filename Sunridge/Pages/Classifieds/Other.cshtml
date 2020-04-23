@@ -1,0 +1,29 @@
+﻿@page
+@model Sunridge.Pages.Classifieds.OtherModel
+@{
+    ViewData["Title"] = "Other Services";
+}
+<link rel="Stylesheet" href="~/css/General/classifiedsSlider.css" type="text/css" />
+
+<!-- inro section Grid -->
+<section class=" p-5 text-center">
+    <div class="container">
+        <div class="container container-fluid no2">
+            <h1 class="main-heading mb-4">Business and Services supporting Sunridge</h1>
+        </div>
+    </div>
+</section>
+<div class="row" align="center">
+
+    @foreach (var item in Model.classifiedService)
+    {
+        <div class="col-lg-3 col-xl-3 col-md-6 pb-4">
+            <div class="card" border-radius:5px">
+                <img src="@item.Image" class="card-img-top p-2 rounded" />
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+}

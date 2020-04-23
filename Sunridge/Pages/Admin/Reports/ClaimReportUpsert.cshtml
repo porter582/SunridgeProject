@@ -1,0 +1,100 @@
+﻿@page
+@model Sunridge.Pages.Admin.Reports.ClaimReportUpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "ClaimReportUpsert";
+}
+
+<br />
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border container mt-5 pt-3">
+        <h2 class="text-primary">Claim Reports</h2>
+        <hr />
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            <div class="col-8 pt-3 mb-5">
+                @if (Model.ClaimReportObj.claimReport.FilePath != null)
+                {
+                    <div style="box-shadow: 10px 10px 8px 10px #888888;" class="col-sm-12 text-center mb-5">
+                        <a class="lightbox" href="@Model.ClaimReportObj.claimReport.FilePath" target="_blank">@Model.ClaimReportObj.claimReport.FileName</a>
+                    </div>
+                }
+                @if (Model.ClaimReportObj.claimReport.id != 0)
+                {
+                    <input type="hidden" asp-for="ClaimReportObj.claimReport.id" />
+                }
+                @if (User.IsInRole(SD.OwnerRole) && Model.ClaimReportObj.AdminComments != null)
+                {
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label>Admin Comments:</label>
+                        </div>
+                        <div class="col-9">
+                            <label>@Html.Raw(Model.ClaimReportObj.AdminComments.AdminComment)</label>
+                        </div>
+                    </div>
+                }
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ClaimReportObj.claimReport.comments"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="ClaimReportObj.claimReport.comments" id="txtComments" style="height:200px"></textarea>
+                    </div>
+                    @if (User.IsInRole(SD.AdminRole) && Model.ClaimReportObj.claimReport.id != 0)
+                    {
+                        <div class="col-3">
+                            <label>Admin Comments</label>
+                        </div>
+                        <div class="col-9">
+                            <textarea class="form-control" asp-for="ClaimReportObj.AdminComments.AdminComment" id="txtComments" style="height:200px"></textarea>
+                        </div>
+                    }
+                    @if (User.IsInRole(SD.AdminRole))
+                    {
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label asp-for="ClaimReportObj.claimReport.resolved"></label>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control" asp-for="ClaimReportObj.claimReport.resolved" />
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ClaimReportObj.claimReport.FilePath"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="file" class="form-control" name="files" id="files" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Submit</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-page="./ClaimReportIndex" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+}
+@section Scripts {
+    <script>
+        tinymce.init(
+            {
+                selector: 'textarea',
+                plugins: 'lists',
+                menubar: 'file edit format'
+            }
+        )
+    </script>
+}
+

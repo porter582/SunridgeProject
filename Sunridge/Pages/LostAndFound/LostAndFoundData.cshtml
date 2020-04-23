@@ -1,0 +1,48 @@
+﻿@page
+@model Sunridge.Pages.LostAndFound.LostAndFoundDataModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "LostAndFoundData";
+}
+
+@if (User.IsInRole(SD.OwnerRole) || User.IsInRole(SD.AdminRole))
+{
+    <div class="border  container mt-5 pt-3">
+        <div class="row">
+            <div class="col-6 mt-3">
+                <h2 class="text-primary">Lost and Found List</h2>
+            </div>
+            <div class="col-6 text-right mt-3">
+                <a asp-page="Upsert" class="btn btn-primary mr-2"><i class="fas fa-plus"></i>&nbsp;Create New</a>
+                @if (User.IsInRole(SD.AdminRole))
+                {
+                    <a asp-page="/Admin/Dashboard" class="btn btn-success text-center float-right">Back to Admin Portal</a>
+                }
+                else
+                {
+                    <a asp-page="/Admin/Dashboard" class="btn btn-success text-center float-right">Back to Owner Portal</a>
+
+                }
+            </div>
+        </div>
+        <div>
+            <table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+}
+
+@section Scripts{
+    <script src="~/js/lostAndFound.js"></script>
+}

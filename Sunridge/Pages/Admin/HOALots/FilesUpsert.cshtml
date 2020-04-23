@@ -1,0 +1,92 @@
+﻿@page
+@model Sunridge.Pages.Admin.HOALots.FilesUpsertModel
+@using Sunridge.Utility;
+
+@{
+    ViewData["Title"] = "FilesUpsert";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (Request.Query["lotId"].Count > 0)
+{
+    TempData["lotId"] = Request.Query["lotId"];
+}
+
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        @if (Model.file.FileId == 0)
+        {
+            <h1 class="text-primary">New Document</h1>
+        }
+        else
+        {
+            <h1 class="text-primary">Edit Document</h1>
+        }
+
+
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+
+            @if (Model.file.FileId != 0)
+            {
+                <input type="hidden" asp-for="file.FileId" />
+            }
+
+            <input type="text" asp-for="file.LotId" value="@Request.Query["lotId"]" hidden />
+
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="file.Name"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="file.Name" id="txtTitle" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="file.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="file.Description" id="txtYear" />
+                    </div>
+                </div>
+                @*<div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="file.FileURL"></label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control" asp-for="file.FileURL" id="txtYear" />
+                        </div>
+                    </div>*@
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="file.FileURL"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="file" class="form-control" name="files" id="files" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        @if (Model.file.FileId != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control m-2">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control m-2" onclick="return ValidateInput()">Create</button>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-page="./FilesIndex" type="submit" asp-route-id="@TempData["LotId"]" class="btn btn-success form-control m-2">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <h1 class="m-3">You must be logged into view this page.</h1>
+}

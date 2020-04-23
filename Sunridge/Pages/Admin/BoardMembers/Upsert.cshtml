@@ -1,0 +1,96 @@
+﻿@page
+@model Sunridge.Pages.Admin.BoardMembers.UpsertModel
+@using Sunridge.Utility
+@if (User.IsInRole(SD.AdminRole))
+{
+    <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+        <div class="container mt-5">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (Model.BoardMemberObj.BoardMember.Id != 0)
+                {
+                    <input type="hidden" asp-for="BoardMemberObj.BoardMember.Id" />
+                }
+                <div class="col-12 px-3" style="border-bottom: 1px solid #325d88">
+                    <h2 class="text-primary">@(Model.BoardMemberObj.BoardMember.Id != 0 ? "Update" : "Add") Board Member</h2>
+                </div>
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="BoardMemberObj.BoardMember.ApplicationUserId"></label>
+                        </div>
+                        <div class="col-9">
+                            @Html.DropDownListFor(m => m.BoardMemberObj.BoardMember.ApplicationUserId, Model.BoardMemberObj.ApplicationUserList, "-Please select an Owner",
+          new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="BoardMemberObj.BoardMember.ApplicationUser"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="BoardMemberObj.BoardMember.BoardRole"></label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control" asp-for="BoardMemberObj.BoardMember.BoardRole" />
+                            <span class="text-danger" asp-validation-for="BoardMemberObj.BoardMember.BoardRole"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="BoardMemberObj.BoardMember.DisplayOrder"></label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control" asp-for="BoardMemberObj.BoardMember.DisplayOrder" />
+                            <span class="text-danger" asp-validation-for="BoardMemberObj.BoardMember.DisplayOrder"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="BoardMemberObj.BoardMember.Image"></label>
+                        </div>
+                        <div class="col-9">
+                            <input type="file" class="form-control" name="files" id="files" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-9 offset-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    @if (Model.BoardMemberObj.BoardMember.Id != 0)
+                                    {
+                                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidateInput()">Add</button>
+                                    }
+                                </div>
+                                <div class="col-6">
+                                    <a asp-page="/Admin/Dashboard" class="btn btn-success form-control">Back to Dashboard</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.BoardMemberObj.BoardMember != null)
+                {
+                    <div class="col-4 p-4">
+                        <img src="@Model.BoardMemberObj.BoardMember.Image" width="100%" style="border-radius: 5px; border: 1px solid #bbb9b9;" />
+                    </div>
+                }
+            </div>
+        </div>
+
+    </form>
+}
+else
+{
+    <div>
+        <h1 class="danger">Access Denied</h1>
+    </div>
+}
+
+<!--
+    <div>
+        <h1 class="danger">Access Denied</h1>
+    </div>
+-->

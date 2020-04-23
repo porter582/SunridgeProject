@@ -1,0 +1,47 @@
+﻿@page
+@model Sunridge.Models.NewsItem
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Edit "@Model.Header"</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-action="Edit" enctype="multipart/form-data">
+            <input type="hidden" asp-for="NewsItemId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Header"></label>
+                <input asp-for="Header" class="form-control" />
+                <span asp-validation-for="Header" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" class="form-control" rows="20"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year"></label>
+                <select asp-for="Year" class="form-control" asp-items="ViewBag.Year"></select>
+            </div>
+            <div class="form-group">
+                <label>Upload File</label>
+                <input type="file" name="files" class="form-control" />
+                <span asp-validation-for="FilePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a href="@Model.FilePath">@Model.FileName</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,39 @@
+﻿@page
+@using Sunridge.Utility
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <div class="row">
+            <div class="col-6 mt-3">
+                <h2 class="text-primary">Board Member List</h2>
+            </div>
+            <div class="col-6 text-right mt-3">
+                <a asp-page="Upsert" class="btn btn-primary mr-3"><i class="fas fa-plus"></i>&nbsp;Create New</a>
+                <a asp-page="/Admin/Dashboard" class="btn btn-success text-center float-right">Back to Admin Portal</a>
+            </div>
+        </div>
+
+        <br /><br />
+        <table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Role</th>
+                    <th>Order</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in as an admin to view this page.</h1>
+    </div>
+}
+
+
+@section Scripts{
+    <script src="~/js/BoardMember.js"></script>
+}

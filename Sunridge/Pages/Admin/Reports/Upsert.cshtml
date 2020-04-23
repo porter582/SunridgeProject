@@ -1,0 +1,255 @@
+﻿@page
+@model Sunridge.Pages.Admin.Reports.UpsertModel
+@using Sunridge.Utility
+@using Sunridge.Models
+
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            <div class="container">
+                <div class="row px-2 mx-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (Model.ReportVMObj.Report.Id != 0)
+                    {
+                        <input type="hidden" asp-for="ReportVMObj.Report.Id" />
+                        @for (var i = 0; i < Model.ReportVMObj.LaborHours.Count(); i++)
+                        {
+                            <input type="hidden" asp-for="ReportVMObj.LaborHours[i].Id" />
+                        }
+                        @for (var i = 0; i < Model.ReportVMObj.EquipmentHours.Count(); i++)
+                        {
+                            <input type="hidden" asp-for="ReportVMObj.EquipmentHours[i].Id" />
+                        }
+
+                    }
+                    <div class="col-12 px-3" style="border-bottom: 1px solid #325d88">
+                        <h2 class="text-primary">@(Model.ReportVMObj.Report.Id != 0 ? "Update" : "Create") Report</h2>
+                    </div>
+                    <div class="col-8 pt-3">
+                        @if (User.IsInRole(SD.OwnerRole))
+                        {
+                            <div class="form-group row">
+                                <div class="col-3">
+                                    <label>Admin Comments:</label>
+                                </div>
+                                <div class="col-9">
+                                    <label>@Model.ReportVMObj.AdminComments.AdminComment</label>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label asp-for="ReportVMObj.Report.FormType"></label>
+                            </div>
+                            <div class="col-9">
+                                <select class="form-control" asp-for="ReportVMObj.Report.FormType" id="formTypeDropDown">
+                                    <option value="Suggestion / Complaint">Suggestion / Complaint</option>
+                                    <option value="Work in kind">Work in kind</option>
+                                </select>
+                                <span class="text-danger" asp-validation-for="ReportVMObj.Report.FormType"></span>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label asp-for="ReportVMObj.Report.Description"></label>
+                            </div>
+                            <div class="col-9">
+                                <textarea class="form-control" asp-for="ReportVMObj.Report.Description" id="txtDescription" style="height:200px"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label id="suggestionLabel" asp-for="ReportVMObj.Report.Suggestion"></label>
+                            </div>
+                            <div class="col-9">
+                                <textarea class="form-control" asp-for="ReportVMObj.Report.Suggestion" id="txtSuggestion" style="height:200px"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-3">
+                                <label asp-for="ReportVMObj.Report.Comments"></label>
+                            </div>
+                            <div class="col-9">
+                                <textarea class="form-control" asp-for="ReportVMObj.Report.Comments" id="txtComments" style="height:200px"></textarea>
+                            </div>
+                            @if (User.IsInRole(SD.AdminRole))
+                            {
+                                <div class="col-3">
+                                    <label>Admin Comments</label>
+                                </div>
+                                <div class="col-9">
+                                    <textarea class="form-control" asp-for="ReportVMObj.AdminComments.AdminComment" id="txtComments" style="height:200px"></textarea>
+                                </div>
+                            }
+                        </div>
+                        @if (User.IsInRole(SD.AdminRole))
+                        {
+                            <div class="form-group row">
+                                <div class="col-3">
+                                    <label asp-for="ReportVMObj.Report.Resolved"></label>
+                                </div>
+                                <div class="col-9">
+                                    <input class="form-control" asp-for="ReportVMObj.Report.Resolved" />
+                                </div>
+                            </div>
+                        }
+
+                        <script>
+                            var currentSelected = document.getElementById("formTypeDropDown");
+                            var choice = document.getElementById("formTypeDropDown").value;
+                            currentSelected.addEventListener("change", function () {
+                                choice = document.getElementById("formTypeDropDown").value;
+                                if (choice == "Work in kind") {
+                                    document.getElementById("suggestionLabel").innerHTML = "Describe Equipment Used";
+                                    var x = document.getElementById("labordiv");
+                                    if (x.style.display == "none") {
+                                        x.style.display = "block";
+                                    }
+
+                                    x = document.getElementById("equipmentdiv");
+                                    if (x.style.display == "none") {
+                                        x.style.display = "block";
+                                    }
+
+                                } else {
+                                    document.getElementById("suggestionLabel").innerHTML = "Suggestion";
+                                    var x = document.getElementById("labordiv");
+                                    if (x.style.display == "block") {
+                                        x.style.display = "none";
+                                    }
+
+                                    x = document.getElementById("equipmentdiv");
+                                    if (x.style.display == "block") {
+                                        x.style.display = "none";
+                                    }
+                                }
+                                var laborListener = document.getElementById("laborButton");
+                                var equipmentListener = document.getElementById("equipmentButton");
+
+                                laborListener.addEventListener("click", function () {
+                                    $('#refreshMeLabor').load(document.URL + ' #refreshMeLabor');
+                                });
+
+                                equipmentListener.addEventListener("click", function () {
+                                    $('#refreshMeEquipment').load(document.URL + ' #refreshMeEquipment');
+                                });
+                            });
+
+
+                        </script>
+
+                        <div class="form-group row" style="display: none;" id="labordiv">
+                            <div>
+                                <button asp-page-handler="laborplus" class="form-control">
+                                    <i id="laborButton" class="btn btn-success form-control">Add Labor</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group row" style="display: none;" id="equipmentdiv">
+                            <div>
+                                <button asp-page-handler="equipmentplus" class="form-control">
+                                    <i id="equipmentButton" class="btn btn-success form-control">Add Equipment</i>
+                                </button>
+                            </div>
+                        </div>
+
+                        @if (Model.ReportVMObj.LaborHours.Count() > 0 || Model.ReportVMObj.EquipmentHours.Count() > 0)
+                        {
+                            <div id="refreshMeLabor">
+                                @if (Model.ReportVMObj.LaborHours.Count() > 0)
+                                {
+                                    @for (var i = 0; i < Model.ReportVMObj.LaborHours.Count(); i++)
+                                    {
+                                        <div class="form-group row">
+                                            <div class="col-3">
+                                                <label asp-for="ReportVMObj.LaborHours[i].LaborActivity"></label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" asp-for="ReportVMObj.LaborHours[i].LaborActivity" />
+                                            </div>
+                                            <div class="col-3">
+                                                <label asp-for="ReportVMObj.LaborHours[i].Hours"></label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" asp-for="ReportVMObj.LaborHours[i].Hours" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div id="refreshMeEquipment">
+                                @if (Model.ReportVMObj.EquipmentHours.Count() > 0)
+                                {
+                                    @for (var i = 0; i < Model.ReportVMObj.EquipmentHours.Count(); i++)
+                                    {
+                                        <div class="form-group row">
+                                            <div class="col-3">
+                                                <label asp-for="ReportVMObj.EquipmentHours[i].EquipmentName"></label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" asp-for="ReportVMObj.EquipmentHours[i].EquipmentName" />
+                                            </div>
+                                            <div class="col-3">
+                                                <label asp-for="ReportVMObj.EquipmentHours[i].Hours"></label>
+                                            </div>
+                                            <div class="col-9">
+                                                <input class="form-control" asp-for="ReportVMObj.EquipmentHours[i].Hours" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6" id="labordiv">
+                                    <button asp-page-handler="laborplus" id="laborButton" class="form-control btn btn-info">Add Labor</button>
+                                </div>
+
+                                <div class="col-md-6" id="equipmentdiv">
+                                    <button asp-page-handler="equipmentplus" class="form-control btn btn-info" id="equipmentButton">Add Equipment</button>
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="form-group row">
+
+                            <div class="col-6">
+                                @if (Model.ReportVMObj.Report.Id != 0)
+                                {
+                                    <button asp-page-handler="create" type="submit" class="btn btn-primary form-control">Update</button>
+                                }
+                                else
+                                {
+                                    <button asp-page-handler="create" type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Create</button>
+                                }
+                            </div>
+                            <div class="col-6">
+                                <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+        }
+        else
+        {
+        <div>
+            <h1 class="danger">Access Denied</h1>
+        </div>
+        }
+        @section Scripts {
+            <script>
+                tinymce.init(
+                    {
+                        selector: 'textarea',
+                        plugins: 'lists',
+                        menubar: 'file edit format'
+                    }
+                )
+            </script>
+        }

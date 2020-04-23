@@ -1,0 +1,398 @@
+﻿@page
+@model Sunridge.Pages.Admin.DashboardModel
+@using Sunridge.Utility;
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3 pb-2">
+
+        <h1 class="p-3 text-primary">Administrator Portal</h1>
+        <hr />
+        @if (Model.ReportsList.Count() > 0 || Model.ClaimReportList.Count() > 0)
+        {
+            <h4 style="color:red" class="p-3">You have @Model.ReportsList.Count().ToString() unresolved form(s) and @Model.ClaimReportList.Count().ToString() unresolved claim form(s)</h4>
+        }
+        else
+        {
+            <h4 class="p-3">You have @Model.ReportsList.Count().ToString() unresolved form(s) and @Model.ClaimReportList.Count().ToString() unresolved claim form(s)</h4>
+        }
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/BannerItems/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:darkorange">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="far fa-image fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Banner Items</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/BoardMembers/BoardMemberEdit">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-dark">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-user-tie fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Board Members</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Classifieds/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-success">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-dollar-sign fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Classifieds</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/CommonAreaAssets/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:darkseagreen">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-wrench fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Common Area Assets</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/ScheduledEvents/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-primary">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-calendar-alt fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Events</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/HOALots/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-danger">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-map fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>HOA Lots</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/InventoryItems/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:teal">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-boxes fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Inventory Items</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Keys/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-warning">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-key fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Keys</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/KeysHistory/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:#d19643;">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fab fa-keycdn fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Key History</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/LostAndFound/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:hotpink">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-eye fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Lost & Found</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/NewsItems/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-secondary">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-newspaper fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>News Items</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Owners/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-info">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-users fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Owners</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Photos/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:blueviolet">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-camera fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Photos</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Reports/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:coral">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-clipboard-list fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Reports / Suggestions</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else if (User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3 pb-2">
+
+        <h1 class="p-3 text-primary">Owner Portal</h1>
+
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Reports/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:coral">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-clipboard-list fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>Forms</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Classifieds/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-success">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-dollar-sign fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Classifieds</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Owners/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-info">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-users fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Information</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Keys/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-warning">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-key fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Keys</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row ml-1 mr-1">
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/HOALots/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0 bg-danger">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-map fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Lots</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/Admin/Photos/Index">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:blueviolet">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-camera fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Photos</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6 mt-1">
+                <a asp-page="/LostAndFound/LostAndFoundData">
+                    <div class="card hov-elem text-white">
+                        <div class="card-body p-0" style="background-color:blueviolet">
+                            <div class="row p-1">
+                                <div class="col-4 pt-3" style="border-right:2px solid #fff; height:80px; display:inline-block; text-align:center;">
+                                    <i class="fas fa-eye fa-3x" style="color:#fff;"></i>
+                                </div>
+                                <div class="col-8 m-auto">
+                                    <h4><strong>My Lost And Found</strong></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+<h1>You must be logged in to view this page.</h1>
+}
+
+
+<style>
+    .hov-elem:hover {
+        background-color: blue;
+        color: blue !important;
+    }
+</style>

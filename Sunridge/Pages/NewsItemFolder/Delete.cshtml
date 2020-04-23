@@ -1,0 +1,43 @@
+﻿@page
+@model Sunridge.Models.NewsItem
+@{
+    ViewData["Title"] = "Delete News Item";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Delete "@Model.Header"?</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-action="Delete">
+            <input type="hidden" asp-for="NewsItemId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Header"></label>
+                <input asp-for="Header" readonly class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Content"></label>
+                <textarea asp-for="Content" readonly class="form-control" rows="20"></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year"></label>
+                <input asp-for="Year" readonly class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <a href="@Model.FilePath">@Model.FileName</a>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-danger" value="Delete" />
+            </div>
+
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

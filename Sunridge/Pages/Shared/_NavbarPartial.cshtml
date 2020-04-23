@@ -1,0 +1,71 @@
+﻿@using Sunridge.Utility
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!-- Bootstrap NavBar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top" id="top-nav">
+    <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Home/Index">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-page="/Home/BoardMembers">Board Members</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Classified Ads
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-page="/Classifieds/Lots">Lots</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-page="/Classifieds/Cabins">Cabins</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-page="/Classifieds/Trailers">Trailers</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-page="/Classifieds/ATVs">ATVs</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-page="/Classifieds/Other">Services</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Documents
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" asp-area="" asp-page="/Home/Rules">Rules</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" asp-area="" asp-page="/Home/Maps">Maps</a>
+                    <div class="dropdown-divider"></div>
+                    @*<a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Bylaws">Bylaws</a>*@
+                    <a class="dropdown-item" href="~/docs/Sunridge By-laws.doc">Bylaws</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/Home/Calendar">Event Calendar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/Home/FireInfo">Fire Info</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/NewsItemFolder/Index">News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/LostAndFound/Index">Lost And Found</a>
+            </li>
+            @*<li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-page="/ChatRoom/Index">Chat Room</a>
+                </li>*@
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-page="/Photos/Index">Photo Gallery</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <partial name="_LoginPartial" />
+    </div>
+</nav><!-- NavBar END -->

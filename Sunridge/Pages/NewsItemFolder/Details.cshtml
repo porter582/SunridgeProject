@@ -1,0 +1,33 @@
+﻿@page
+@model Sunridge.Models.NewsItem
+@{
+    ViewData["Title"] = "News Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>"@Model.Header" Details</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label asp-for="Header"></label>
+            <input asp-for="Header" readonly class="form-control" />
+        </div>
+        <div class="form-group">
+            <label asp-for="Content"></label>
+            <textarea asp-for="Content" readonly class="form-control" rows="20"></textarea>
+        </div>
+        <div class="form-group">
+            <label asp-for="Year"></label>
+            <input asp-for="Year" readonly class="form-control" asp-items="ViewBag.Year" />
+        </div>
+        <div class="form-group">
+            <a href="@Model.FilePath">@Model.FileName</a>
+        </div>
+        <div class="form-group">
+            <a asp-action="Edit" asp-route-id="@Model.NewsItemId">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>

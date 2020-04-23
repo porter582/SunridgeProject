@@ -1,0 +1,78 @@
+﻿@page
+@model Sunridge.Pages.NewsItemFolder.UpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "Upsert";
+}
+<br />
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <h2 class="text-primary">News Item</h2>
+        <hr />
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            <div class="col-8 pt-3 mb-5">
+                @if (Model.NewsItemObj.NewsItemId != 0)
+                {
+                    <input type="hidden" asp-for="NewsItemObj.NewsItemId" />
+                }
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="NewsItemObj.Header"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="NewsItemObj.Header" id="txtDescription" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="NewsItemObj.Content"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="NewsItemObj.Content" id="txtDescription" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="NewsItemObj.Year"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="NewsItemObj.Year" />
+                        <span class="text-danger" asp-validation-for="NewsItemObj.Year"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="NewsItemObj.FilePath"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="file" class="form-control" name="files" id="files" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Submit</button>
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-page="./NewsItemData" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+<h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+}
+@section Scripts {
+    <script>
+        tinymce.init(
+            {
+                selector: 'textarea',
+                plugins: 'lists',
+                menubar: 'file edit format'
+            }
+        )
+    </script>
+}

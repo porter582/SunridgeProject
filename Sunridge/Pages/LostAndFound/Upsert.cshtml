@@ -1,0 +1,63 @@
+﻿@page
+@model Sunridge.Pages.LostAndFound.UpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "Upsert";
+}
+<br />
+<br />
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+
+        <h2 class="text-primary">Lost and Found Item</h2>
+        <hr />
+
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            @if (Model.LostAndFoundItemObj.Id != 0)
+            {
+                <input type="hidden" asp-for="LostAndFoundItemObj.Id" />
+            }
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="LostAndFoundItemObj.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="LostAndFoundItemObj.Description" id="txtDescription" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="LostAndFoundItemObj.Image"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="file" class="form-control" name="files" id="files" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Submit</button>
+                    </div>
+                    <div class="col-6">
+                        <a asp-page="./LostAndFoundData" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+        }else
+        {
+        <h1>Access Denied</h1>
+        }
+        @section Scripts {
+            <script>
+                tinymce.init(
+                    {
+                        selector: 'textarea',
+                        plugins: 'lists',
+                        menubar: 'file edit format'
+                    }
+                )
+            </script>
+        }

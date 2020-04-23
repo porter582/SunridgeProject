@@ -1,0 +1,42 @@
+﻿@page
+@model Sunridge.Pages.Home.BoardMembersModel
+@{
+    ViewData["Title"] = "Board Members";
+}
+
+<!-- inro section Grid -->
+<section class="p-5">
+    <div class="container">
+        <div class="container container-fluid no2">
+            <h1 class="main-heading mb-4 mt-4 text-center">Board Members</h1>
+        </div>
+    </div>
+</section>
+
+
+<!-- Testimonials -->
+<section class="testimonials text-center">
+    <div class="container">
+        <div class="row">
+            @foreach (var member in Model.BoardMemberList)
+            {
+                <div class="mb-5 col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                    <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                        <img class="img-fluid rounded-circle mb-3" src="@member.Image">
+                        <h5>@member.BoardRole: @member.ApplicationUser.FullName</h5>
+                        @foreach (var lot in Model.LotList)
+                        {
+                            if (member.ApplicationUser.Id == lot.OwnerId)
+                            {
+                                <p class="font-weight-light mb-0">Lot: @lot.Lot.LotNumber</p>
+                            }
+                        }
+                        <p class="font-weight-light mb-0">@member.ApplicationUser.PhoneNumber</p>
+                        @{string temp = "mailto:" + @member.ApplicationUser.Email;}
+                        <p class="font-weight-light mb-0">Email: <a href=@temp.ToString()>@member.ApplicationUser.FullName</a></p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

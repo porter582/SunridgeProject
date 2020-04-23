@@ -1,0 +1,120 @@
+﻿@page
+@model Sunridge.Pages.Admin.Classifieds.UpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "Upsert";
+}
+<br />
+<br />
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+
+        <div class="col-12 px-3" style="border-bottom: 1px solid #325d88">
+            <h2 class="text-primary">@(Model.ClassifiedObj.ClassifiedListing.ClassifiedListingId != 0 ? "Update" : "Add") Classified</h2>
+        </div>
+        @*<table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+            </table>*@
+    <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+        @if (Model.ClassifiedObj.ClassifiedListing.ClassifiedListingId != 0)
+        {
+            <input type="hidden" asp-for="ClassifiedObj.ClassifiedListing.ClassifiedListingId" />
+        }
+        <div class="col-8 pt-3">
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Categories"></label>
+                </div>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(m => m.ClassifiedObj.ClassifiedListing.Categories, Model.ClassifiedObj.CategoryList, "- Please select a Category", new { @class = "form-control" })
+                    <span class="text-danger" asp-validation-for="ClassifiedObj.ClassifiedListing.Categories"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.ItemName"></label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" asp-for="ClassifiedObj.ClassifiedListing.ItemName" id="txtTitle" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Price"></label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" asp-for="ClassifiedObj.ClassifiedListing.Price" id="txtYear" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Description"></label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" asp-for="ClassifiedObj.ClassifiedListing.Description" id="txtYear" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Phone"></label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" asp-for="ClassifiedObj.ClassifiedListing.Phone" id="txtYear" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Email"></label>
+                </div>
+                <div class="col-9">
+                    <input class="form-control" asp-for="ClassifiedObj.ClassifiedListing.Email" id="txtYear" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="ClassifiedObj.ClassifiedListing.Images"></label>
+                </div>
+                <div class="col-9">
+                    <input type="file" class="form-control" name="files" id="files" multiple />
+                </div>
+            </div>
+            <div class="row">
+                @if (Model.ClassifiedObj.ClassifiedListing.ClassifiedListingId != 0)
+                {
+                    <div class="col-md-6 p-4">
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-6 p-4">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidateInput()">Create</button>
+                    </div>
+                }
+                <div class="col-md-6 p-4">
+                    <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+}
+else
+{
+<div>
+    <h1 class="m-3">You must be logged in to view this page.</h1>
+</div>
+}
+@section Scripts{
+    <script src="~/js/adminClassifiedIndex.js"></script>
+}

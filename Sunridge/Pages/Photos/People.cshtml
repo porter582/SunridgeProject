@@ -1,0 +1,43 @@
+﻿@page
+@model Sunridge.Pages.Photos.PeopleModel
+@{
+    ViewData["Title"] = "People Pictures";
+}
+
+<!-- inro section Grid -->
+<section class=" p-5">
+    <div class="container">
+        <div class="container container-fluid no2">
+            <h1 class="main-heading mb-4 text-center">People Photos</h1>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<div class="container gallery-container text-center mt-5 mb-5">
+
+    <div class="">
+        <div class="row tz-gallery">
+            @foreach (var p in Model.photos)
+            {
+                @if (p.Category == "People")
+                {
+                    <div class="col-sm-6 col-md-4 mb-4">
+                        <a class="lightbox" href="~/img/photo-gal/@(p.Id).png">
+                            <img style="max-width: 260px;" src="@p.Image" alt="@p.Title" />
+                        </a>
+                        <h5>@p.Title</h5>
+                        <p class="font-weight-light mb-0"><i>@p.Name</i></p>
+                        <p class="font-weight-light mb-0">@p.Year</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.0/baguetteBox.min.js"></script>
+    <script>baguetteBox.run('.tz-gallery');</script>
+}
+

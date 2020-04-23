@@ -1,0 +1,168 @@
+﻿@page
+@model RegisterModel
+@using Sunridge.Utility;
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@*    THE BELOW COMMENTING IS CURRY'S REGISTER PAGE IF WE DECIDE WE WANT TO USE IT
+
+
+    NOTE FOR MIKE: START ON 28
+
+    <div class="py-4 my-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row form-group">
+        <div class="col-8 offset-2">
+            <div class="card">
+
+                <div class="card-body px-lg-5 pt-4">
+                    <form method="post" autocomplete="off" asp-route-returnUrl="@Model.ReturnUrl">
+                        <h3 class="col-12 text-success text-center py-4">
+                            @if (User.IsInRole(SD.AdminRole))
+                            {
+                                <strong>Register an Employee</strong>
+                            }
+                            else
+                            {
+                                <strong>Sign Up</strong>
+                            }
+                        </h3>
+                        <hr />
+                        <div class="form-row py-2">
+                            <div class="col">
+                                <div>
+                                    <input type="text" asp-for="Input.FirstName" autocomplete="off" placeholder="First Name" class="form-control" />
+                                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input type="text" asp-for="Input.LastName" autocomplete="off" placeholder="Last Name" class="form-control" />
+                                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <input type="email" asp-for="Input.Email" autocomplete="off" placeholder="Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="py-2">
+                            <input type="text" asp-for="Input.PhoneNumber" autocomplete="off" placeholder="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="py-2">
+                            <input type="text" asp-for="Input.Address" autocomplete="off" placeholder="Address" class="form-control" />
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
+                        <div class="py-2">
+                            <input type="password" asp-for="Input.Password" autocomplete="off" placeholder="Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="py-2">
+                            <input type="password" asp-for="Input.ConfirmPassword" autocomplete="off" placeholder="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="py-2">
+                            <input type="radio" name="rdUserRole" value="@SD.AdminRole" /> @SD.AdminRole
+                            <input type="radio" name="rdUserRole" value="@SD.OwnerRole" /> @SD.OwnerRole
+                        </div>
+                        <div class="py-2">
+                            <button type="submit" class="btn btn-success form-control">Register</button>
+                        </div>
+
+                    </form>
+
+                    @if (!User.IsInRole(SD.AdminRole))
+                    {
+
+
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                            <p>
+                                By clicking <em>Register</em> you agree to our <a href="" target="_blank"> terms of service </a>
+                            </p>
+
+                        </form>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PhoneNumber"></label>
+                <input asp-for="Input.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.AddressValue"></label>
+                <input asp-for="Input.AddressValue" class="form-control" />
+                <span asp-validation-for="Input.AddressValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ApartmentValue"></label>
+                <input asp-for="Input.ApartmentValue" class="form-control" />
+                <span asp-validation-for="Input.ApartmentValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.CityValue"></label>
+                <input asp-for="Input.CityValue" class="form-control" />
+                <span asp-validation-for="Input.CityValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.StateValue"></label>
+                <input asp-for="Input.StateValue" class="form-control" />
+                <span asp-validation-for="Input.StateValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ZipValue"></label>
+                <input asp-for="Input.ZipValue" class="form-control" />
+                <span asp-validation-for="Input.ZipValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="py-2">
+                <input type="radio" name="rdUserRole" value="@SD.AdminRole" /> @SD.AdminRole
+                <input type="radio" name="rdUserRole" value="@SD.OwnerRole" /> @SD.OwnerRole
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

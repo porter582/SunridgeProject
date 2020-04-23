@@ -1,0 +1,132 @@
+﻿@page
+@model Sunridge.Pages.Home.CalendarModel
+@using Sunridge.Utility;
+@{
+    ViewData["Title"] = "Event Calender";
+}
+
+
+<!-- Intro Section Grid -->
+<section class="text-center p-5">
+    <div class="container">
+        <div class="container container-fluid no2">
+            <h1 class="main-heading mb-4">Important Events</h1>
+            <div>
+                <p>All events and dates for the Sunridge community and be found below.</p>
+            </div>
+        </div>
+    </div>
+</section>
+@if (User.IsInRole(SD.AdminRole))
+{
+    <a asp-page="/Admin/ScheduledEvents/Index" class="nav-link">Edit Events</a>
+}
+<!-- Calendar -->
+<section class="calendar text-center">
+    <div class="container">
+        <div id="calendar"></div>
+        <link href="~/lib/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
+        <link href="~/lib/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+        <div class="container"><button class="btn-primary mt-4"><a class="text-white" href="mailto:Webmaster@sunridge.info">Contact the Webmaster to publish a new event</a></button></div>
+    </div>
+</section>
+
+<div id="calendarEventModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="eventTitle">Event Title</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="eventDetails"></p>
+            </div>
+            <div class="modal-footer">
+                @if (User.IsInRole(SD.AdminRole))
+                {
+                    <button type="button" class="btn btn-primary" onclick="editEvent()">Edit Event</button>
+                }
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/moment.js/moment.min.js"></script>
+    <script src="~/lib/fullcalendar/fullcalendar.min.js"></script>
+
+
+    <script>
+        var selectedEvent = null;
+        $(document).ready(function () {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/api/ScheduledEvents",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            id: v.id,
+                            title: v.subject,
+                            description: v.description,
+                            location: v.location,
+                            image: v.image,
+                            start: moment(v.start),
+                            end: v.end != null ? moment(v.end) : null,
+                            allDay: v.isFullDay
+                        });
+                    });
+                    generateCalendar(events);
+                },
+                error: function (error) {
+                    alert('failed');
+                }
+            });
+            function generateCalendar(events) {
+                // When generating cal, destroy whatever already exists
+                $('#calendar').fullCalendar('destroy');
+                // Calendar settings
+                $('#calendar').fullCalendar({
+                    contentHeight: 400,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,listYear'
+                    },
+                    eventLimit: true,
+                    eventTextColor: 'white',
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        selectedEvent = calEvent.id;
+                        $('#calendarEventModal #eventTitle').text(calEvent.title);
+                        var $description = $('<div/>');
+                        if (calEvent.image != null) {
+                            $description.append($('<p/>').html('<img src="' + calEvent.image + '" class="img-responsive">'));
+                        }
+                        $description.append($('<p/>').html('<b>Description: </b>' + calEvent.description));
+                        if (calEvent.location != null) {
+                            $description.append($('<p/>')
+                                .html('<b>Location: </b>' + calEvent.location));
+                        }
+                        $description.append($('<p/>')
+                            .html('<b>Start: </b>' + calEvent.start.format("dddd, MMMM Do YYYY, h:mm:ss a")));
+                        if (calEvent.end != null) {
+                            $description.append($('<p/>')
+                                .html('<b>End: </b>' + calEvent.end.format("dddd, MMMM Do YYYY, h:mm:ss a")));
+                        }
+                        $('#calendarEventModal #eventDetails').empty().html($description);
+                        $('#calendarEventModal').modal();
+                    }
+                });
+            }
+        })
+        function editEvent() {
+            window.location.href = '/Admin/ScheduledEvents/Index';
+        }
+    </script>
+}

@@ -1,0 +1,61 @@
+﻿@page
+@model Sunridge.Pages.Admin.Classifieds.Services.UpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "Upsert";
+}
+<br />
+<br />
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+
+        <h2 class="text-primary">Add new Service</h2>
+        <hr />
+        @*<table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>*@
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ClassifiedServiceObj.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <textarea class="form-control" asp-for="ClassifiedServiceObj.Description" id="txtDescription" style="height:200px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="ClassifiedServiceObj.Image"></label>
+                    </div>
+                    <div class="col-9">
+                        <input type="file" class="form-control" name="files" id="files" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 p-4">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Create</button>
+                    </div>
+                    <div class="col-md-6 p-4">
+                        <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in to view this page.</h1>
+    </div>
+}
+@section Scripts{
+    <script src="~/js/classifiedService.js"></script>
+}

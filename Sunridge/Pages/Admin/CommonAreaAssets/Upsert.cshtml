@@ -1,0 +1,109 @@
+﻿@page
+@model Sunridge.Pages.Admin.CommonAreaAssets.UpsertModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "Upsert";
+}
+<link rel="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" type="text/css" />
+
+<br />
+<br />
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        @*<table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Asset Name</th>
+                        <th>Purchase Price</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+            </table>*@
+
+        <h2 class="text-primary">@(Model.CommonAreaObj.CommonAreaAssetId != 0 ? "Update" : "Add") Common Area Asset</h2>
+        <hr />
+
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+            @if (Model.CommonAreaObj.CommonAreaAssetId != 0)
+            {
+                <input type="hidden" asp-for="CommonAreaObj.CommonAreaAssetId" />
+            }
+            <div class="col-8 pt-3">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="CommonAreaObj.AssetName"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="CommonAreaObj.AssetName" id="txtName" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="CommonAreaObj.PurchasePrice"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="CommonAreaObj.PurchasePrice" id="txtPrice" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="CommonAreaObj.Status"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="CommonAreaObj.Status" id="txtStatus" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="CommonAreaObj.Date"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="datepicker" type="date" value="" asp-for="CommonAreaObj.Date" type="text" class="form-control" />
+                        <span class="text-danger" asp-validation-for="CommonAreaObj.Date"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 p-4">
+                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidInput()">Create</button>
+                    </div>
+                    <div class="col-md-6 p-4">
+                        <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in as an admin to view this page.</h1>
+    </div>
+}
+@section Scripts{
+    <script src="~/js/adminCommonArea.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({});
+        });
+
+
+        function validateInput() {
+            var dt = document.getElementById("datepicker").value;
+
+            if (dt.toString() == '') {
+                swal("Error", "Please select Date", "error");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+}
+
+

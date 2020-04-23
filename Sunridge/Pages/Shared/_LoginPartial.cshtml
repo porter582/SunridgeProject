@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Sunridge.Utility
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject ApplicationDbContext Context
+
+
+<ul id="nav-partial" class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.GetUserAsync(User);
+        var owner = Context.ApplicationUser.Find(user.Id);
+
+        <li class="nav-item">
+            @if (User.IsInRole(SD.AdminRole))
+            {
+                <a class="nav-link text-primary" asp-page="/Admin/Dashboard">Admin Portal</a>
+            }
+            else
+            {
+                <a class="nav-link text-primary" asp-page="/Admin/Dashboard">Owner Portal</a>
+            }
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @owner.FirstName!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        @* This is commented out so that people can't just willy nilly sign up. But it's left here in case something goes really wrong and nobody can ever log in.
+            This can then be uncommnented to allow people to create users temporarily and can then be commented back out.
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            </li>*@
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

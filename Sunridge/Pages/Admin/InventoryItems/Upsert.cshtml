@@ -1,0 +1,51 @@
+﻿@page
+@model Sunridge.Pages.Admin.InventoryItems.UpsertModel
+@using Sunridge.Utility;
+
+@{
+    ViewData["Title"] = "Upsert";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <h2 class="text-primary">Inventory Item</h2>
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+
+            <div class="col-8 pt-3 pl-3">
+                @if (Model.inventoryObj.InventoryId != 0)
+                {
+                    <input type="hidden" asp-for="inventoryObj.InventoryId" />
+                }
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="inventoryObj.Description"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="inventoryObj.Description" id="txtFirstName" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        @if (Model.inventoryObj.InventoryId != 0)
+                        {
+                            <button type="submit" class="btn btn-primary form-control m-2">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control m-2" onclick="return ValidateInput()">Create</button>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-page="./Index" type="submit" class="btn btn-success form-control m-2">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+<h1>You must be logged in as an Admin to view this page.</h1>
+}

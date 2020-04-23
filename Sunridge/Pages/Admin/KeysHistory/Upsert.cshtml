@@ -1,0 +1,132 @@
+﻿@page
+@model Sunridge.Pages.Admin.KeysHistory.UpsertModel
+@using Sunridge.Utility
+
+<link rel="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" type="text/css" />
+
+
+
+
+@if (User.IsInRole(SD.AdminRole))
+{
+    <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+        <div class="container mt-5">
+            <div class="row px-2 mx-2 backgroundWhite border">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (Model.KeyHistoryObj.KeyHistory.KeyHistoryId != 0)
+                {
+                    <input type="hidden" asp-for="KeyHistoryObj.KeyHistory.KeyHistoryId" />
+                }
+                <div class="col-12 px-3" style="border-bottom: 1px solid #325d88">
+                    <h2 class="text-primary">@(Model.KeyHistoryObj.KeyHistory.KeyHistoryId != 0 ? "Update" : "Add") Key History</h2>
+                </div>
+                <div class="col-8 pt-3">
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="KeyHistoryObj.KeyHistory.KeyId"></label>
+                        </div>
+                        <div class="col-9">
+                            @Html.DropDownListFor(m => m.KeyHistoryObj.KeyHistory.KeyId, Model.KeyHistoryObj.KeyList, "-Please select a Key", new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.KeyId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="KeyHistoryObj.KeyHistory.LotId"></label>
+                        </div>
+                        <div class="col-9">
+                            @Html.DropDownListFor(m => m.KeyHistoryObj.KeyHistory.LotId, Model.KeyHistoryObj.LotList, "-Please select a Lot", new { @class = "form-control" })
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.LotId"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="KeyHistoryObj.KeyHistory.Status"></label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control" asp-for="KeyHistoryObj.KeyHistory.Status" />
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.Status"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label>Date Issued</label>
+                        </div>
+                        <div class="col-9">
+                            <input class="datepicker" type="date" value="" asp-for="KeyHistoryObj.KeyHistory.DateIssued" type="text" class="form-control" />
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.DateIssued"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label>Date Returned</label>
+                        </div>
+                        <div class="col-9">
+                            <input class="datepicker" type="date" value="" asp-for="KeyHistoryObj.KeyHistory.DateReturned" type="text" class="form-control" />
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.DateReturned"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label asp-for="KeyHistoryObj.KeyHistory.PaidAmount">Paid Amount</label>
+                        </div>
+                        <div class="col-9">
+                            <input class="form-control" asp-for="KeyHistoryObj.KeyHistory.PaidAmount" />
+                            <span class="text-danger" asp-validation-for="KeyHistoryObj.KeyHistory.PaidAmount"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-9 offset-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    @if (Model.KeyHistoryObj.KeyHistory.KeyHistoryId != 0)
+                                    {
+                                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary form-control" onclick="return ValidateInput()">Add</button>
+                                    }
+                                </div>
+                                <div class="col-6">
+                                    <a asp-page="/Admin/KeysHistory/Index" class="btn btn-success form-control">Back to Key History</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+    </div>
+}
+
+@section Scripts{
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({  });
+        });
+
+
+        function validateInput() {
+            var dt = document.getElementById("datepicker").value;
+
+            if (dt.toString() == '') {
+                swal("Error", "Please select Date", "error");
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+}

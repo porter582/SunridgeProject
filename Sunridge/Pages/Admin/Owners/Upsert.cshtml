@@ -1,0 +1,184 @@
+﻿@page
+@model Sunridge.Pages.Admin.Owners.UpsertModel
+@using Sunridge.Utility
+
+@{
+    ViewData["Title"] = "Upsert";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <h1 class="ml-3 text-primary">Create Owner</h1>
+        <hr />
+        <form method="post" asp-action="Upsert" enctype="multipart/form-data">
+
+            <div class="col-8 pt-3 pl-3">
+                @if (Model.OwnerObj.FirstName != null && Model.OwnerObj.FirstName != "")
+                {
+                    <input type="hidden" asp-for="OwnerObj.Id" />
+                }
+                @if (Model.AddressObj.Id != 0)
+                {
+                    <input type="hidden" asp-for="AddressObj.Id" />
+                }
+
+                <input type="hidden" asp-for="createAnother" id="another" />
+                <input type="hidden" asp-for="redirect" id="redirect" />
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.FirstName"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.FirstName" id="txtFirstName" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.LastName"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.LastName" id="txtLastName" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.Email"></label>
+                    </div>
+                    <div class="col-9">
+                        <input asp-for="OwnerObj.Email" id="realEmail" hidden />
+                        <input class="form-control" type="email" id="txtEmail" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.PhoneNumber"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.PhoneNumber" id="txtPhone" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.Occupation"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.Occupation" id="txtOccupation" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.Birthday"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.Birthday" id="txtBirthday" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.EmergencyContactName"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.EmergencyContactName" id="txtEmergencyContactName" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerObj.EmergencyContactPhone"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerObj.EmergencyContactPhone" id="txtEmergencyContactPhone" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="AddressObj.StreetAddress"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="AddressObj.StreetAddress" id="txtStAddress" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="AddressObj.Apartment"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="AddressObj.Apartment" id="txtApartment" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="AddressObj.City"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="AddressObj.City" id="txtCity" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="AddressObj.State"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="AddressObj.State" id="txtState" value="UT" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="AddressObj.Zip"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="AddressObj.Zip" id="txtZip" placeholder="required..." />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="OwnerType"></label>
+                    </div>
+                    <div class="col-9">
+                        <input class="form-control" asp-for="OwnerType" id="ownerType" hidden />
+                        <label for="OwnerRB">Owner</label>
+                        <input id="OwnerRB" type="radio" name="RB" value="Owner" checked />
+                        <label class="ml-5" for="AdminRB">Admin</label>
+                        <input id="AdminRB" type="radio" name="RB" value="Admin" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        @if (Model.OwnerObj.FirstName != null && Model.OwnerObj.FirstName != "")
+                        {
+                            <button type="submit" class="btn btn-primary form-control">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary form-control submission">Create</button>
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <a asp-page="./Index" type="submit" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+                @if (Model.OwnerObj.FirstName == null || Model.OwnerObj.FirstName == "")
+                {
+                    <p class="text-danger mt-3">Default Password will be assigned to this user: <span class="text-dark font-weight-bold">Temppass123$</span></p>
+                }
+            </div>
+        </form>
+    </div>
+}
+else
+{
+<h1>You must be logged in to view this page.</h1>
+}
+
+<style>
+    .invalid {
+        border: 1px solid red;
+    }
+</style>
+
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script src="~/js/OwnerUpsert.js"></script>

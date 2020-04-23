@@ -1,0 +1,76 @@
+﻿@page
+@model Sunridge.Pages.Admin.ScheduledEvents.DetailsModel
+@using Sunridge.Utility
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3">
+        <h1 class="text-primary">Event Details</h1>
+
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.Subject)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.Subject)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.Location)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.Location)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.Image)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.Image)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.Start)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.Start)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.End)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.End)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.ScheduledEvent.IsFullDay)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.ScheduledEvent.IsFullDay)
+                </dd>
+            </dl>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a asp-page="./Edit" asp-route-id="@Model.ScheduledEvent.ID" class="btn btn-primary form-control">Edit</a>
+            </div>
+            <div class="col-md-6">
+                <a asp-page="./Index" class="btn btn-success form-control">Back to List</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+    </div>
+}

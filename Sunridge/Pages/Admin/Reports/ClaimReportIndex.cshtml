@@ -1,0 +1,49 @@
+﻿@page
+@model Sunridge.Pages.Admin.Reports.ClaimReportIndexModel
+@using Sunridge.Utility
+@{
+    ViewData["Title"] = "ClaimReportIndex";
+}
+
+<h1>Propert Damage or Claim Report</h1>
+@if (User.IsInRole(SD.AdminRole) || User.IsInRole(SD.OwnerRole))
+{
+<div class="border  container mt-5 pt-3">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-primary">Reports List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-page="ClaimReportUpsert" class="btn btn-primary mr-2"><i class="fas fa-plus"></i>&nbsp;Create New</a>
+            <a asp-page="/Admin/Dashboard" class="btn btn-success text-center float-right">Back to Dashboard</a>
+        </div>
+    </div>
+    <br /> <br />
+    <table id="DT_load" class="table pb-3 table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Listing Date</th>
+                <th>Resolved Date</th>
+                <th>File Name</th>
+                <th></th>
+            </tr>
+        </thead>
+    </table>
+
+    <hr />
+    <h2 class="text-primary">Download This Form Below Then Click "Create New" And Upload The Completed Report</h2>
+
+    <br>
+    <a href="\images\Forms\SUNRIDGE_BUILDING_APPROVAL_REQUEST_FORM_rev2.pdf">Sunridge Building Approval Request Form</a>
+</div>
+}
+else
+{
+    <div>
+        <h1 class="danm-3ger">You must be logged in to view this page.</h1>
+    </div>
+}
+@section Scripts{
+    <script src="~/js/claimreport.js"></script>
+}

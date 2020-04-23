@@ -1,0 +1,89 @@
+﻿@page
+@model Sunridge.Pages.Admin.ScheduledEvents.IndexModel
+@using Sunridge.Utility
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (User.IsInRole(SD.AdminRole))
+{
+    <div class="border backgroundWhite container mt-5 pt-3 pb-3"> 
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="text-primary">Events Calendar</h1>
+            </div>
+            <div class="col-md-4 offset-2">
+                <a class="btn btn-primary ml-5" asp-page="Create">Create New</a>
+                <a asp-page="/Admin/Dashboard" class="btn btn-success text-center float-right">Back to Admin Portal</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].Subject)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].Location)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].Start)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].End)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ScheduledEvent[0].IsFullDay)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ScheduledEvent)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Subject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Location)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Image)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Start)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.End)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsFullDay)
+                        </td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-sm btn-success">Details</a>
+                            <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div>
+        <h1 class="m-3">You must be logged in as an Admin to view this page.</h1>
+    </div>
+}
